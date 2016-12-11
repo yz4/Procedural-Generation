@@ -23,6 +23,11 @@ public class generate_map : MonoBehaviour {
     public float meshHeightMultiplier;
     public AnimationCurve meshHeightCurve;
 
+    void Start()
+    {
+        generateMap();
+    }
+
     public static List<int[]> squares(int[,] livable)
     {
         int R = livable.GetLength(0);
