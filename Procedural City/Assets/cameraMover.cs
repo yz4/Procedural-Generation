@@ -49,29 +49,55 @@ public class cameraMover : MonoBehaviour
         }
         // Change level of details using key +/-
         if (Input.GetKey(KeyCode.Equals))
-        {            
+        {
+            // delete generated stuff first
+            foreach (GameObject o in Object.FindObjectsOfType<GameObject>())
+            {
+                if (o.tag != "important")
+                    Destroy(o);
+            }
             map.levelOfDetails = Mathf.Min(map.levelOfDetails + 1, 6);
             map.generateMap();
         }
         if (Input.GetKey(KeyCode.Minus))
         {
+            foreach (GameObject o in Object.FindObjectsOfType<GameObject>())
+            {
+                if (o.tag != "important")
+                    Destroy(o);
+            }
             map.levelOfDetails = Mathf.Max(map.levelOfDetails - 1, 0);
             map.generateMap();
         }
         // Change seed to create a random new map, using left shift
         if (Input.GetKey(KeyCode.LeftShift))
         {
+            foreach (GameObject o in Object.FindObjectsOfType<GameObject>())
+            {
+                if (o.tag != "important")
+                    Destroy(o);
+            }
             map.seed++;
             map.generateMap();
         }
         // Change scale using mouse wheel
         if (Input.GetAxis("Mouse ScrollWheel") > 0)
         {
+            foreach (GameObject o in Object.FindObjectsOfType<GameObject>())
+            {
+                if (o.tag != "important")
+                    Destroy(o);
+            }
             map.scale += 10;
             map.generateMap();
         }
         if (Input.GetAxis("Mouse ScrollWheel") < 0)
         {
+            foreach (GameObject o in Object.FindObjectsOfType<GameObject>())
+            {
+                if(o.tag != "important")
+                    Destroy(o); 
+            }
             map.scale = Mathf.Max(1, map.scale - 10);
             map.generateMap();
         }
@@ -98,6 +124,6 @@ public class cameraMover : MonoBehaviour
             transform.localEulerAngles = new Vector3(-rotationY, transform.localEulerAngles.y, 0);
         }
         // clamp camera y-coord to avoid going underground
-        transform.position = new Vector3(transform.position.x, Mathf.Clamp(transform.position.y, 40.0f, 1000.0f) ,transform.position.z);
+        transform.position = new Vector3(transform.position.x, Mathf.Clamp(transform.position.y, 10.0f, 1000.0f) ,transform.position.z);
     }
 }

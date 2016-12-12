@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System.Linq;
 
 public class generate_map : MonoBehaviour {
     
@@ -10,7 +11,7 @@ public class generate_map : MonoBehaviour {
     public GameObject crossroad;
     public enum DrawMode { NoiseMap, ColorMap, Mesh};
     public DrawMode draw_mode;
-    public const int mapChunkSize = 241;
+    public const int mapChunkSize = 100;
     [Range(0,6)]
     public int levelOfDetails;
     public int octaves, seed;
@@ -61,7 +62,7 @@ public class generate_map : MonoBehaviour {
         {
             for (int j = 0; j < C; ++j)
             {
-                if (S[i, j] > 4)
+                if (S[i, j] > 5)
                 {
                     int[] coords = new int[4] { i, j - S[i, j] + 1, i - S[i, j] + 1, j };
                     boxes.Add(coords);
@@ -119,6 +120,10 @@ public class generate_map : MonoBehaviour {
                 levelOfDetails, meshHeightCurve),
                 TextureGenerator.TextureFromColorMap(colormap, mapChunkSize, mapChunkSize));
             
+            //    instantiate a smaug model on the highest mountain!
+            int [,] a = { { 1, 2, 3 }, { 4, 5, 6 } };
+            //a.Max();
+
             List<int[]> coords = squares(livable);
             
             foreach (int[] i in coords)
@@ -129,7 +134,7 @@ public class generate_map : MonoBehaviour {
                 Debug.Log(cityWidth);
                 Debug.Log(cityHeight);
 
-                int buildingFootprint = 3;
+                int buildingFootprint = 1;
                 int[,] citygrid = new int[cityWidth, cityHeight];
                 for (int h = 0; h < cityHeight; ++h)
                 {
@@ -138,50 +143,19 @@ public class generate_map : MonoBehaviour {
                         citygrid[w, h] = (int)(Mathf.PerlinNoise(w / 10.0f, h / 10.0f) * 10);
                     }
                 }
-                // build horizontal streets
-                int x = 0;
-                for (int n = 0; n < 50; ++n)
-                {
-                    for (int h = 0; h < cityHeight; ++h)
-                    {
-                        citygrid[x, h] = -1;
-                    }
-                    x += Random.Range(2, 10);
-                    if (x >= cityWidth) break;
-                }
-                // build vertical streets
-                int z = 0;
-                for (int n = 0; n < 10; ++n)
-                {
-                    for (int w = 0; w < cityWidth; ++w)
-                    {
-                        if (citygrid[w, z] == -1)
-                            citygrid[w, z] = -3;
-                        else
-                            citygrid[w, z] = -2;
-                    }
-                    z += Random.Range(2, 10);
-                    if (z >= cityHeight) break;
-                }
-
+               
                 // build city
 
                 //float mapY = meshHeightCurve.Evaluate(map[coords[0], coords[1]]) * meshHeightMultiplier;
                 float mapY = meshHeightCurve.Evaluate(0.5f) * meshHeightMultiplier;
-                for (int h = 0; h < cityHeight; ++h)
+                for (int h = 0; h < cityHeight / buildingFootprint; ++h)
                 {
-                    for (int w = 0; w < cityWidth; ++w)
+                    for (int w = 0; w < cityWidth / buildingFootprint; ++w)
                     {
 
                         int result = citygrid[w, h];
-                        Vector3 position = new Vector3(w * buildingFootprint + i[0], mapY, h * buildingFootprint + i[1]);
-                        if (result < -2)
-                            Instantiate(crossroad, position, crossroad.transform.rotation);
-                        else if (result < -1)
-                            Instantiate(xstreets, position, xstreets.transform.rotation);
-                        else if (result < 0)
-                            Instantiate(zstreets, position, zstreets.transform.rotation);
-                        else if (result < 1)
+                        Vector3 position = new Vector3(w * buildingFootprint + i[0], mapY, mapChunkSize - (h * buildingFootprint + i[1]));
+                        if (result < 1)
                             Instantiate(buildings[0], position, Quaternion.identity);
                         else if (result < 2)
                             Instantiate(buildings[1], position, Quaternion.identity);

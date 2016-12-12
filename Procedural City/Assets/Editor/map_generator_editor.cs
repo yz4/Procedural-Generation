@@ -17,7 +17,22 @@ public class map_generator_editor : Editor {
         }
         if (GUILayout.Button("Generate"))
         {
+            // delete generated stuff first
+            foreach (GameObject o in Object.FindObjectsOfType<GameObject>())
+            {
+                if (o.tag != "important")
+                    DestroyImmediate(o);
+            }
             mapGen.generateMap();
+        }
+        if (GUILayout.Button("Clear"))
+        {
+            // delete generated stuff first
+            foreach (GameObject o in Object.FindObjectsOfType<GameObject>())
+            {
+                if (o.tag != "important")
+                    DestroyImmediate(o);
+            }
         }
     }
 }
