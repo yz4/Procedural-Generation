@@ -19,6 +19,9 @@ public class cameraMover : MonoBehaviour
 
     void Update()
     {
+        // find the generate mesh map
+        generate_map map = FindObjectOfType<generate_map>();
+
         // arrow keys or WSAD + ctrls and space for height
         if (Input.GetKey(KeyCode.RightArrow) || Input.GetKey(KeyCode.D))
         {
@@ -44,6 +47,34 @@ public class cameraMover : MonoBehaviour
         {
             transform.Translate(new Vector3(0, arrowSpeed * Time.deltaTime, 0));
         }
+        // Change level of details using key +/-
+        if (Input.GetKey(KeyCode.Equals))
+        {            
+            map.levelOfDetails = Mathf.Min(map.levelOfDetails + 1, 6);
+            map.generateMap();
+        }
+        if (Input.GetKey(KeyCode.Minus))
+        {
+            map.levelOfDetails = Mathf.Max(map.levelOfDetails - 1, 0);
+            map.generateMap();
+        }
+        // Change seed to create a random new map, using left shift
+        if (Input.GetKey(KeyCode.LeftShift))
+        {
+            map.seed++;
+            map.generateMap();
+        }
+        // Change scale using mouse wheel
+        if (Input.GetAxis("Mouse ScrollWheel") > 0)
+        {
+            map.scale += 10;
+            map.generateMap();
+        }
+        if (Input.GetAxis("Mouse ScrollWheel") < 0)
+        {
+            map.scale = Mathf.Max(1, map.scale - 10);
+            map.generateMap();
+        }
 
         // rotate camera with mouse movement
         if (axes == RotationAxes.MouseXAndY)
@@ -65,6 +96,8 @@ public class cameraMover : MonoBehaviour
             rotationY = Mathf.Clamp(rotationY, minimumY, maximumY);
 
             transform.localEulerAngles = new Vector3(-rotationY, transform.localEulerAngles.y, 0);
-        }    
+        }
+        // clamp camera y-coord to avoid going underground
+        transform.position = new Vector3(transform.position.x, Mathf.Clamp(transform.position.y, 40.0f, 1000.0f) ,transform.position.z);
     }
 }

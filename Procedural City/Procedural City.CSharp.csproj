@@ -74,24 +74,16 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="Procedural City.CSharp.Plugins.csproj">
-      <Project>{F2C3B73C-EC6A-2A54-C644-3FFF042D4329}</Project>
-      <Name>Procedural City.CSharp.Plugins</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
     <Compile Include="Assets\MeshGenerator.cs" />
     <Compile Include="Assets\TextureGenerator.cs" />
+    <Compile Include="Assets\cameraMover.cs" />
     <Compile Include="Assets\display_map.cs" />
+    <Compile Include="Assets\endlessTerrain.cs" />
     <Compile Include="Assets\generate_city.cs" />
     <Compile Include="Assets\generate_map.cs" />
     <Compile Include="Assets\perlinMap.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Assets\Standard Assets\Characters\FirstPersonCharacter\FirstPersonCharacterGuidelines.txt" />
-    <None Include="Assets\Standard Assets\Characters\RollerBall\RollerBallGuidelines.txt" />
-    <None Include="Assets\Standard Assets\Characters\ThirdPersonCharacter\ThirdPersonCharacterGuidelines.txt" />
-    <None Include="Assets\Standard Assets\CrossPlatformInput\CrossPlatformInputGuidelines.txt" />
     <None Include="Assets\buildings\Simple\Urban Buildings Pack 1\runesimple.shader" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\SyntaxTree\UnityVS\2015\UnityVS.CSharp.targets" />

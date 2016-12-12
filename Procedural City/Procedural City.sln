@@ -1,11 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2015
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Procedural City.CSharp.Plugins", "Procedural City.CSharp.Plugins.csproj", "{F2C3B73C-EC6A-2A54-C644-3FFF042D4329}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Procedural City.CSharp", "Procedural City.CSharp.csproj", "{51CE7F49-9B78-2152-ED51-FE26A972D435}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Procedural City.CSharp.Editor.Plugins", "Procedural City.CSharp.Editor.Plugins.csproj", "{ED6A4EB4-728E-DFA4-FDBB-382CB0377DC0}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Procedural City.CSharp.Editor", "Procedural City.CSharp.Editor.csproj", "{38E22030-192A-B656-9BDF-2832731ABA56}"
 EndProject
@@ -15,18 +11,10 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{F2C3B73C-EC6A-2A54-C644-3FFF042D4329}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{F2C3B73C-EC6A-2A54-C644-3FFF042D4329}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{F2C3B73C-EC6A-2A54-C644-3FFF042D4329}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{F2C3B73C-EC6A-2A54-C644-3FFF042D4329}.Release|Any CPU.Build.0 = Release|Any CPU
 		{51CE7F49-9B78-2152-ED51-FE26A972D435}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{51CE7F49-9B78-2152-ED51-FE26A972D435}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{51CE7F49-9B78-2152-ED51-FE26A972D435}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{51CE7F49-9B78-2152-ED51-FE26A972D435}.Release|Any CPU.Build.0 = Release|Any CPU
-		{ED6A4EB4-728E-DFA4-FDBB-382CB0377DC0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{ED6A4EB4-728E-DFA4-FDBB-382CB0377DC0}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{ED6A4EB4-728E-DFA4-FDBB-382CB0377DC0}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{ED6A4EB4-728E-DFA4-FDBB-382CB0377DC0}.Release|Any CPU.Build.0 = Release|Any CPU
 		{38E22030-192A-B656-9BDF-2832731ABA56}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{38E22030-192A-B656-9BDF-2832731ABA56}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{38E22030-192A-B656-9BDF-2832731ABA56}.Release|Any CPU.ActiveCfg = Release|Any CPU

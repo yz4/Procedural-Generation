@@ -15,7 +15,9 @@ public class display_map : MonoBehaviour {
 
     public void DrawMesh(MeshData meshdata, Texture2D texture)
     {
+        
         meshFilter.sharedMesh = meshdata.createMesh();
         meshRenderer.sharedMaterial.mainTexture = texture;
+        
     }
 }

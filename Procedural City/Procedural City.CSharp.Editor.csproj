@@ -113,27 +113,15 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="Procedural City.CSharp.Plugins.csproj">
-      <Project>{F2C3B73C-EC6A-2A54-C644-3FFF042D4329}</Project>
-      <Name>Procedural City.CSharp.Plugins</Name>
-    </ProjectReference>
     <ProjectReference Include="Procedural City.CSharp.csproj">
       <Project>{51CE7F49-9B78-2152-ED51-FE26A972D435}</Project>
       <Name>Procedural City.CSharp</Name>
-    </ProjectReference>
-    <ProjectReference Include="Procedural City.CSharp.Editor.Plugins.csproj">
-      <Project>{ED6A4EB4-728E-DFA4-FDBB-382CB0377DC0}</Project>
-      <Name>Procedural City.CSharp.Editor.Plugins</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Assets\Editor\map_generator_editor.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Assets\Standard Assets\Characters\FirstPersonCharacter\FirstPersonCharacterGuidelines.txt" />
-    <None Include="Assets\Standard Assets\Characters\RollerBall\RollerBallGuidelines.txt" />
-    <None Include="Assets\Standard Assets\Characters\ThirdPersonCharacter\ThirdPersonCharacterGuidelines.txt" />
-    <None Include="Assets\Standard Assets\CrossPlatformInput\CrossPlatformInputGuidelines.txt" />
     <None Include="Assets\buildings\Simple\Urban Buildings Pack 1\runesimple.shader" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\SyntaxTree\UnityVS\2015\UnityVS.CSharp.targets" />
