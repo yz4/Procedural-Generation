@@ -465,10 +465,10 @@ PlayerSettings:
   vrEditorSettings: {}
   cloudServicesEnabled:
     Build: 0
-    Collab: 1
+    Collab: 0
     ErrorHub: 0
     Hub: 0
-    UNet: 1
+    UNet: 0
   cloudProjectId: 24c26009-b257-400a-9c23-c0d1e4cdcebc
   projectName: Procedural City
   organizationId: miller-zhu

@@ -6,16 +6,14 @@ using System.Linq;
 public class generate_map : MonoBehaviour {
     
     public GameObject[] buildings;
-    public GameObject xstreets;
-    public GameObject zstreets;
-    public GameObject crossroad;
+    public GameObject smaug, grass, tree, mushroom, sheep, boat;
     public enum DrawMode { NoiseMap, ColorMap, Mesh};
     public DrawMode draw_mode;
-    public const int mapChunkSize = 100;
-    [Range(0,6)]
+    
+    [Range(0,2)]
     public int levelOfDetails;
     public int octaves, seed;
-
+    public int villageSizeCutoff = 15;
     [Range(0, 1)]
     public float persistence, cityLow, cityHigh;
 
@@ -26,12 +24,14 @@ public class generate_map : MonoBehaviour {
     public float meshHeightMultiplier;
     public AnimationCurve meshHeightCurve;
 
+    private int mapChunkSize;
+
     void Start()
     {
-        generateMap();
+        generateMap(false);
     }
 
-    public static List<int[]> squares(int[,] livable)
+    public static List<int[]> squares(int[,] livable, int cutoff)
     {
         int R = livable.GetLength(0);
         int C = livable.GetLength(1);
@@ -57,6 +57,9 @@ public class generate_map : MonoBehaviour {
 
         // data structure for storing square coordinates
         List<int[]> boxes = new List<int[]>();
+
+        int[,] occupied = new int[100, 100];
+        bool allSatisfied = true;
         // traverse S
         for (int i = 0; i < R; ++i)
         {
@@ -64,20 +67,38 @@ public class generate_map : MonoBehaviour {
             {
                 if (S[i, j] > 5)
                 {
+                    allSatisfied = true;
                     int[] coords = new int[4] { i, j - S[i, j] + 1, i - S[i, j] + 1, j };
-                    boxes.Add(coords);
-                    print("Bottom-left: (" + coords[0].ToString() + ", " + coords[1].ToString() + 
-                        "); Top-right: (" + coords[2].ToString() + ", " + coords[3].ToString() + ")");
+                    Debug.Log("w started at " + i.ToString() + " and ended at " + (i - S[i, j]).ToString());
+                    Debug.Log("h started at " + (j - S[i, j] + 1).ToString() + " and ended at " + (j - 1).ToString());
+                    for (int w = i - S[i, j] + 1; w < i && allSatisfied; ++w)
+                    {
+                        for (int h = j - S[i, j] + 1; h < j && allSatisfied; ++h)
+                        {
+                            Debug.Log("got into loop");
+                            if (occupied[w, h] == 1)
+                            {
+                                Debug.Log("Set to False");
+                                allSatisfied = false;
+                            }
+                            else
+                                occupied[w, h] = 1;
+                        }
+                    }
+                    if (allSatisfied)
+                        boxes.Add(coords);
                 }
             }
-        }        
-        
-        // TO DO: detect box collision
+        }
+
         return boxes;
     }
 
-    public void generateMap()
-    {        
+    public void generateMap(bool fill = true)
+    {
+        // have to force it to low value
+        mapChunkSize = (fill ? 101 : 241);
+
         float[,] map = perlinMap.generateMap(mapChunkSize, mapChunkSize, seed, scale, octaves, persistence, 
             lacunarity, offset);
         
@@ -119,52 +140,121 @@ public class generate_map : MonoBehaviour {
             display.DrawMesh(MeshGenerator.generate_terrain_mesh(map, meshHeightMultiplier,
                 levelOfDetails, meshHeightCurve),
                 TextureGenerator.TextureFromColorMap(colormap, mapChunkSize, mapChunkSize));
-            
-            //    instantiate a smaug model on the highest mountain!
-            int [,] a = { { 1, 2, 3 }, { 4, 5, 6 } };
-            //a.Max();
 
-            List<int[]> coords = squares(livable);
-            
-            foreach (int[] i in coords)
+            if (fill)
             {
-                int cityWidth = Mathf.Abs(i[3] - i[1]);
-                int cityHeight = Mathf.Abs(i[0] - i[2]);
 
-                Debug.Log(cityWidth);
-                Debug.Log(cityHeight);
+                // instantiate a smaug model on the highest mountain!
+                // plant some vegetations!
+                // find the max value in map
+                int max_w = -1, max_h = -1;
+                float max = -1f;
 
-                int buildingFootprint = 1;
-                int[,] citygrid = new int[cityWidth, cityHeight];
-                for (int h = 0; h < cityHeight; ++h)
+                for (int w = 0; w < mapChunkSize; ++w)
                 {
-                    for (int w = 0; w < cityWidth; ++w)
+                    for (int h = 0; h < mapChunkSize; ++h)
                     {
-                        citygrid[w, h] = (int)(Mathf.PerlinNoise(w / 10.0f, h / 10.0f) * 10);
+                        if (map[w, h] > max)
+                        {
+                            max = map[w, h];
+                            max_w = w;
+                            max_h = h;
+                        }
+                        // generate some stuff on the ground
+                        if (map[w, h] >= 0.5f && map[w, h] <= 0.7f)
+                        {
+                            float dice = Random.Range(0.0f, 1.0f);
+                            if (dice < 0.05f)
+                            {
+                                Vector3 grassPos = new Vector3(w,
+                                    meshHeightCurve.Evaluate(map[w, h]) * meshHeightMultiplier,
+                                    mapChunkSize - h);
+                                Instantiate(grass, grassPos, Quaternion.Euler(0.0f, Random.Range(0.0f, 360.0f), 0.0f));
+                            }
+                            else if (dice < 0.08f)
+                            {
+                                Vector3 treePos = new Vector3(w,
+                                    meshHeightCurve.Evaluate(map[w, h]) * meshHeightMultiplier,
+                                    mapChunkSize - h);
+                                Instantiate(tree, treePos, Quaternion.Euler(0.0f, Random.Range(0.0f, 360.0f), 0.0f));
+                            }
+                            else if (dice < 0.12f)
+                            {
+                                Vector3 mushroomPos = new Vector3(w,
+                                    meshHeightCurve.Evaluate(map[w, h]) * meshHeightMultiplier,
+                                    mapChunkSize - h);
+                                Instantiate(mushroom, mushroomPos, Quaternion.Euler(0.0f, Random.Range(0.0f, 360.0f), 0.0f));
+                            }
+                            else if (dice < 0.15f)
+                            {
+                                Vector3 sheepPos = new Vector3(w,
+                                    meshHeightCurve.Evaluate(map[w, h]) * meshHeightMultiplier,
+                                    mapChunkSize - h);
+                                Instantiate(sheep, sheepPos, Quaternion.Euler(0.0f, Random.Range(0.0f, 360.0f), 0.0f));
+                            }
+                        }
+                        else if (map[w, h] <= 0.35f)
+                        {
+                            float dice = Random.Range(0.0f, 1.0f);
+                            if (dice < 0.005f)
+                            {
+                                Vector3 boatPos = new Vector3(w,
+                                    meshHeightCurve.Evaluate(map[w, h]) * meshHeightMultiplier,
+                                    mapChunkSize - h);
+                                Instantiate(boat, boatPos, Quaternion.Euler(0.0f, Random.Range(0.0f, 360.0f), 0.0f));
+                            }
+                        }
                     }
                 }
-               
-                // build city
+                // create position vector for smaug
+                Vector3 smaugPos = new Vector3(max_w,
+                    meshHeightCurve.Evaluate(map[max_w, max_h]) * meshHeightMultiplier - 2.0f,
+                    mapChunkSize - max_h - 2.0f);
+                Instantiate(smaug, smaugPos, smaug.transform.rotation);
 
-                //float mapY = meshHeightCurve.Evaluate(map[coords[0], coords[1]]) * meshHeightMultiplier;
-                float mapY = meshHeightCurve.Evaluate(0.5f) * meshHeightMultiplier;
-                for (int h = 0; h < cityHeight / buildingFootprint; ++h)
+                // procedurally generate city
+                List<int[]> coords = squares(livable, villageSizeCutoff);
+
+                foreach (int[] i in coords)
                 {
-                    for (int w = 0; w < cityWidth / buildingFootprint; ++w)
-                    {
+                    int cityWidth = Mathf.Abs(i[3] - i[1]);
+                    int cityHeight = Mathf.Abs(i[0] - i[2]);
+                    int buildingFootprint = 2;
 
-                        int result = citygrid[w, h];
-                        Vector3 position = new Vector3(w * buildingFootprint + i[0], mapY, mapChunkSize - (h * buildingFootprint + i[1]));
-                        if (result < 1)
-                            Instantiate(buildings[0], position, Quaternion.identity);
-                        else if (result < 2)
-                            Instantiate(buildings[1], position, Quaternion.identity);
-                        else if (result < 4)
-                            Instantiate(buildings[2], position, Quaternion.identity);
-                        else if (result < 6)
-                            Instantiate(buildings[3], position, Quaternion.identity);
-                        else if (result < 10)
-                            Instantiate(buildings[4], position, Quaternion.identity);
+                    int[,] citygrid = new int[cityWidth, cityHeight];
+                    for (int h = 0; h < cityHeight; ++h)
+                    {
+                        for (int w = 0; w < cityWidth; ++w)
+                        {
+                            citygrid[w, h] = (int)(Mathf.PerlinNoise(w / 10.0f, h / 10.0f) * 10.0f);
+                        }
+                    }
+
+                    // build city
+
+                    float mapY = meshHeightCurve.Evaluate(map[i[0], i[1]]) * meshHeightMultiplier;
+                    for (int h = 0; h < cityHeight; h++)
+                    {
+                        for (int w = 0; w < cityWidth; w++)
+                        {
+
+                            int result = citygrid[w, h];
+                            Debug.Log(result);
+                            Vector3 position = new Vector3(w * buildingFootprint + i[0], mapY, mapChunkSize - (h * buildingFootprint + i[1]));
+                            if (w * buildingFootprint < cityWidth && h * buildingFootprint < cityHeight)
+                            {
+                                if (result < 2)
+                                    Instantiate(buildings[0], position, Quaternion.Euler(-90.0f, 0.0f, 0.0f));
+                                else if (result < 4)
+                                    Instantiate(buildings[1], position, Quaternion.Euler(-90.0f, 0.0f, 0.0f));
+                                else if (result < 6)
+                                    Instantiate(buildings[2], position, Quaternion.Euler(-90.0f, 0.0f, 0.0f));
+                                else if (result < 8)
+                                    Instantiate(buildings[3], position, Quaternion.Euler(-90.0f, 0.0f, 0.0f));
+                                else if (result < 10)
+                                    Instantiate(buildings[4], position, Quaternion.Euler(-90.0f, 0.0f, 180.0f));
+                            }
+                        }
                     }
                 }
             }

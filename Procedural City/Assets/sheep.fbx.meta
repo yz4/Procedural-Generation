@@ -1,0 +1,168 @@
+fileFormatVersion: 2
+guid: 0304bfaf479a83f4780ff16a1a7ff3be
+timeCreated: 1481588750
+licenseType: Free
+ModelImporter:
+  serializedVersion: 19
+  fileIDToRecycleName:
+    100000: center_eye
+    100002: center_eye_2
+    100004: Hair_01
+    100006: Hair_02
+    100008: Hair_03
+    100010: Hair_04
+    100012: Hair_05
+    100014: Hairs
+    100016: Head
+    100018: head
+    100020: Left_eye
+    100022: Leg_01
+    100024: Leg_02
+    100026: Leg_03
+    100028: Leg_04
+    100030: legs
+    100032: Right_eye
+    100034: //RootNode
+    100036: Sphere
+    100038: Sphere_1
+    100040: white_circle
+    100042: white_circle_2
+    400000: center_eye
+    400002: center_eye_2
+    400004: Hair_01
+    400006: Hair_02
+    400008: Hair_03
+    400010: Hair_04
+    400012: Hair_05
+    400014: Hairs
+    400016: Head
+    400018: head
+    400020: Left_eye
+    400022: Leg_01
+    400024: Leg_02
+    400026: Leg_03
+    400028: Leg_04
+    400030: legs
+    400032: Right_eye
+    400034: //RootNode
+    400036: Sphere
+    400038: Sphere_1
+    400040: white_circle
+    400042: white_circle_2
+    2300000: center_eye
+    2300002: center_eye_2
+    2300004: Hair_01
+    2300006: Hair_02
+    2300008: Hair_03
+    2300010: Hair_04
+    2300012: Hair_05
+    2300014: head
+    2300016: Leg_01
+    2300018: Leg_02
+    2300020: Leg_03
+    2300022: Leg_04
+    2300024: Sphere
+    2300026: Sphere_1
+    2300028: white_circle
+    2300030: white_circle_2
+    3300000: center_eye
+    3300002: center_eye_2
+    3300004: Hair_01
+    3300006: Hair_02
+    3300008: Hair_03
+    3300010: Hair_04
+    3300012: Hair_05
+    3300014: head
+    3300016: Leg_01
+    3300018: Leg_02
+    3300020: Leg_03
+    3300022: Leg_04
+    3300024: Sphere
+    3300026: Sphere_1
+    3300028: white_circle
+    3300030: white_circle_2
+    4300000: Hair_01
+    4300002: Hair_02
+    4300004: Hair_03
+    4300006: Hair_04
+    4300008: Hair_05
+    4300010: head
+    4300012: center_eye
+    4300014: white_circle
+    4300016: center_eye_2
+    4300018: white_circle_2
+    4300020: Leg_01
+    4300022: Leg_02
+    4300024: Leg_03
+    4300026: Leg_04
+    4300028: Sphere
+    4300030: Sphere_1
+    9500000: //RootNode
+  materials:
+    importMaterials: 1
+    materialName: 0
+    materialSearch: 1
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    resampleCurves: 1
+    optimizeGameObjects: 0
+    motionNodeName: 
+    animationImportErrors: 
+    animationImportWarnings: 
+    animationRetargetingWarnings: 
+    animationDoRetargetingWarnings: 0
+    animationCompression: 1
+    animationRotationError: 0.5
+    animationPositionError: 0.5
+    animationScaleError: 0.5
+    animationWrapMode: 0
+    extraExposedTransformPaths: []
+    clipAnimations: []
+    isReadable: 1
+  meshes:
+    lODScreenPercentages: []
+    globalScale: 1
+    meshCompression: 0
+    addColliders: 0
+    importBlendShapes: 1
+    swapUVChannels: 0
+    generateSecondaryUV: 0
+    useFileUnits: 1
+    optimizeMeshForGPU: 1
+    keepQuads: 0
+    weldVertices: 1
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVPackMargin: 4
+    useFileScale: 1
+  tangentSpace:
+    normalSmoothAngle: 60
+    normalImportMode: 0
+    tangentImportMode: 3
+  importAnimation: 1
+  copyAvatar: 0
+  humanDescription:
+    serializedVersion: 2
+    human: []
+    skeleton: []
+    armTwist: 0.5
+    foreArmTwist: 0.5
+    upperLegTwist: 0.5
+    legTwist: 0.5
+    armStretch: 0.05
+    legStretch: 0.05
+    feetSpacing: 0
+    rootMotionBoneName: 
+    rootMotionBoneRotation: {x: 0, y: 0, z: 0, w: 1}
+    hasTranslationDoF: 0
+    hasExtraRoot: 0
+    skeletonHasParents: 1
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  animationType: 2
+  humanoidOversampling: 1
+  additionalBone: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

@@ -7,6 +7,7 @@ public class cameraMover : MonoBehaviour
 
     public float arrowSpeed = 150.0f;
     public float zoomSpeed = 2.0f;
+    public float mapSize = 100.0f;
     public enum RotationAxes { MouseXAndY = 0, MouseX = 1, MouseY = 2 }
     public RotationAxes axes = RotationAxes.MouseXAndY;
     public float sensitivityX = 15F;
@@ -15,7 +16,14 @@ public class cameraMover : MonoBehaviour
     public float maximumX = 360F;
     public float minimumY = -60F;
     public float maximumY = 60F;
+    private bool fill = false;
+
     float rotationY = 0F;
+
+    void Start()
+    {
+        transform.position = new Vector3(50, 100, 50);
+    }
 
     void Update()
     {
@@ -47,6 +55,11 @@ public class cameraMover : MonoBehaviour
         {
             transform.Translate(new Vector3(0, arrowSpeed * Time.deltaTime, 0));
         }
+        // Change fill content or not using Enter
+        if (Input.GetMouseButtonDown(0))
+        {
+            fill = (fill ? false : true);
+        }
         // Change level of details using key +/-
         if (Input.GetKey(KeyCode.Equals))
         {
@@ -56,8 +69,8 @@ public class cameraMover : MonoBehaviour
                 if (o.tag != "important")
                     Destroy(o);
             }
-            map.levelOfDetails = Mathf.Min(map.levelOfDetails + 1, 6);
-            map.generateMap();
+            map.levelOfDetails = Mathf.Min(map.levelOfDetails + 1, 2);
+            map.generateMap(fill);
         }
         if (Input.GetKey(KeyCode.Minus))
         {
@@ -67,7 +80,7 @@ public class cameraMover : MonoBehaviour
                     Destroy(o);
             }
             map.levelOfDetails = Mathf.Max(map.levelOfDetails - 1, 0);
-            map.generateMap();
+            map.generateMap(fill);
         }
         // Change seed to create a random new map, using left shift
         if (Input.GetKey(KeyCode.LeftShift))
@@ -78,7 +91,7 @@ public class cameraMover : MonoBehaviour
                     Destroy(o);
             }
             map.seed++;
-            map.generateMap();
+            map.generateMap(fill);
         }
         // Change scale using mouse wheel
         if (Input.GetAxis("Mouse ScrollWheel") > 0)
@@ -88,8 +101,8 @@ public class cameraMover : MonoBehaviour
                 if (o.tag != "important")
                     Destroy(o);
             }
-            map.scale += 10;
-            map.generateMap();
+            map.scale += 3;
+            map.generateMap(fill);
         }
         if (Input.GetAxis("Mouse ScrollWheel") < 0)
         {
@@ -98,8 +111,8 @@ public class cameraMover : MonoBehaviour
                 if(o.tag != "important")
                     Destroy(o); 
             }
-            map.scale = Mathf.Max(1, map.scale - 10);
-            map.generateMap();
+            map.scale = Mathf.Max(1, map.scale - 3);
+            map.generateMap(fill);
         }
 
         // rotate camera with mouse movement
@@ -123,7 +136,10 @@ public class cameraMover : MonoBehaviour
 
             transform.localEulerAngles = new Vector3(-rotationY, transform.localEulerAngles.y, 0);
         }
-        // clamp camera y-coord to avoid going underground
-        transform.position = new Vector3(transform.position.x, Mathf.Clamp(transform.position.y, 10.0f, 1000.0f) ,transform.position.z);
+        // clamp camera position to avoid going underground and out
+        transform.position = new Vector3(
+            Mathf.Clamp(transform.position.x, 0, mapSize),
+            Mathf.Clamp(transform.position.y, 2.0f, 1000.0f), 
+            Mathf.Clamp(transform.position.z, 0, mapSize));
     }
 }
